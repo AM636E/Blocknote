@@ -38,7 +38,7 @@ void OnCommand(HWND hWnd, int id, HWND hwndCtl, UINT codeNotify)
 					if( file.isNew )
 					{
 						file.SaveDialog( hWnd, "All Files", "" );
-						file.Open( ofn.lpstrFile );
+						file.Open( file.GetFileName() );
 						file.Show( hEdit );
 					}
 					else
