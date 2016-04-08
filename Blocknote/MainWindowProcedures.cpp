@@ -1,17 +1,17 @@
 #include "File.h"
-HWND cEdit = 0;
+HWND cEdit = nullptr;
 BOOL OnCreate( HWND hWnd, LPCREATESTRUCT lpCS )
 {
 	g_isNew = true;
 	isSaved = false;
 	isChanged = false;
 
-	hEdit = CreateWindow( "edit", 0, 
+	hEdit = CreateWindow( "edit", nullptr, 
 		WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL |
 		WS_BORDER | ES_LEFT | ES_MULTILINE | ES_AUTOHSCROLL |
-		ES_AUTOVSCROLL, 0, 0, 0, 0, hWnd, ( HMENU ) H_EDIT, 0, 0 );
+		ES_AUTOVSCROLL, 0, 0, 0, 0, hWnd, ( HMENU ) H_EDIT, nullptr, nullptr );
 
-	OnCommand( hWnd, IDM_FILE_NEW, 0, 0 );
+	OnCommand( hWnd, IDM_FILE_NEW, nullptr, 0 );
 
 	return TRUE;
 }
@@ -144,12 +144,12 @@ void OnCommand(HWND hWnd, int id, HWND hwndCtl, UINT codeNotify)
 		{			
 			//if( !IsWindow( hFRDialog ) )
 			//{
-				hFRDialog = CreateDialog( GetModuleHandle( 0 ), MAKEINTRESOURCE( IDD_FIND_REPLACE ), hWnd, ( DLGPROC ) FindReplaceDlgProc );
+				hFRDialog = CreateDialog( GetModuleHandle( nullptr ), MAKEINTRESOURCE( IDD_FIND_REPLACE ), hWnd, ( DLGPROC ) FindReplaceDlgProc );
 
 				ShowWindow( hFRDialog, SW_SHOW );
 			//}
 
-			hFRDialog = 0;
+			hFRDialog = nullptr;
 
 			break;
 		}
@@ -162,7 +162,7 @@ void OnCommand(HWND hWnd, int id, HWND hwndCtl, UINT codeNotify)
 		{			
 		///	if( !IsWindow( hRegDlg ) )
 		//	{
-				hRegDlg = CreateDialog( GetModuleHandle( 0 ), MAKEINTRESOURCE( IDD_REGISTER ), hWnd, ( DLGPROC ) RegisterDlgProc );
+				hRegDlg = CreateDialog( GetModuleHandle( nullptr ), MAKEINTRESOURCE( IDD_REGISTER ), hWnd, ( DLGPROC ) RegisterDlgProc );
 				ShowWindow( hRegDlg, SW_SHOW );				
 		///	}		
 
@@ -172,7 +172,7 @@ void OnCommand(HWND hWnd, int id, HWND hwndCtl, UINT codeNotify)
 		{
 		///	if( !IsWindow( hHistoryDlg ) )
 		///	{
-				hHistoryDlg = CreateDialog( GetModuleHandle( 0 ), MAKEINTRESOURCE( IDD_HISTORY ), hWnd, ( DLGPROC )HistoryDlgProc );
+				hHistoryDlg = CreateDialog( GetModuleHandle( nullptr ), MAKEINTRESOURCE( IDD_HISTORY ), hWnd, ( DLGPROC )HistoryDlgProc );
 				ShowWindow( hRegDlg, SW_SHOW );
 		///	}
 
@@ -198,7 +198,7 @@ void OnCommand(HWND hWnd, int id, HWND hwndCtl, UINT codeNotify)
 				}
 			case EN_ERRSPACE:
 				{
-					MessageBox( 0, "Buffer is full", "Take easy man!", MB_OK );
+					MessageBox( nullptr, "Buffer is full", "Take easy man!", MB_OK );
 
 					if( !g_isNew )
 					{
@@ -210,7 +210,7 @@ void OnCommand(HWND hWnd, int id, HWND hwndCtl, UINT codeNotify)
 						OnCommand( hWnd, IDM_FILE_SAVE_AS, hwndCtl, codeNotify );
 					}
 
-					SetWindowText( hWnd, 0 );
+					SetWindowText( hWnd, nullptr );
 
 					break;
 				}
@@ -235,6 +235,13 @@ void OnDestroy( HWND hWnd )
 	PostQuitMessage( 0 );
 }
 
+
+/**
+ * Get count of chars in file. Counts new line as two characters.
+ *
+ * @param filename - file name.
+ * @returns count of chars.
+ */
 int GetCountOfCharacters( const char *filename )
 {
 	ifstream file( filename );
@@ -244,12 +251,12 @@ int GetCountOfCharacters( const char *filename )
 		return false;
 	}
 
-	char ch = 0;
-	int len = 0;
+	auto len = 0;
 
 	while( !file.eof( ) )
 	{
-		if( ( ch = file.get( ) ) == 10 )
+		// Counting Windows style endings like two chars.
+		if( (file.get( ) ) == 10 )
 		{
 			len += 2;
 		}
@@ -260,23 +267,29 @@ int GetCountOfCharacters( const char *filename )
 	}
 
 	file.close( );
-
+	// +1 For the last \0.
 	return len + 1;
 }
 
+/** 
+ * Get data from file with convertion to win style endings.
+ *
+ * @param filename - filename
+ * @returns - info from file.
+ */
 char *GetInfFromFile( const char *filename )
 {
 	ifstream file( filename );	
 	
 	if( !file )
 	{
-		return 0;
+		return nullptr;
 	}
 
-	int len = GetCountOfCharacters( filename );
+	auto len = GetCountOfCharacters( filename );
 
-	char* inf = new char[ len + 1 ];
-	int i = 0;
+	auto inf = new char[ len + 1 ];
+	auto i = 0;
 
 	char ch = 0;	
 
@@ -355,10 +368,10 @@ bool isCoded = true;
 
 char *CodeDecodeText( const char *text )
 {
-	static int PASSWORD = 0;
+	static auto PASSWORD = 0;
 	if( isCoded )
 	{
-		srand( time( 0 ) );
+		srand( time( nullptr ) );
 
 		PASSWORD = 255 + rand( ) % 1000;
 	}

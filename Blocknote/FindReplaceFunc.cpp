@@ -2,7 +2,7 @@
 
 
 
-HWND hFind = 0, hReplace = 0;
+HWND hFind = nullptr, hReplace = nullptr;
 
 
 
@@ -32,7 +32,7 @@ BOOL OnFRInitDialog(HWND hDlg, HWND hwndFocus, LPARAM lParam)
 
 		hDlg,
 
-		0, 0, 0 );
+		nullptr, nullptr, nullptr );
 
 
 
@@ -50,7 +50,7 @@ BOOL OnFRInitDialog(HWND hDlg, HWND hwndFocus, LPARAM lParam)
 
 		hDlg,
 
-		0, 0, 0 );
+		nullptr, nullptr, nullptr );
 
 
 
@@ -66,9 +66,9 @@ BOOL OnFRInitDialog(HWND hDlg, HWND hwndFocus, LPARAM lParam)
 
 		60, 30,
 
-		hDlg,		
+		hDlg,
 
-		0, 0, 0 );
+		nullptr, nullptr, nullptr );
 
 
 
@@ -428,7 +428,7 @@ void OnFRCommand(HWND hDlg, int id, HWND hwndCtl, UINT codeNotify)
 
 
 
-			if( toReplace == 0 )
+			if( toReplace == nullptr )
 
 				return ;
 
@@ -438,7 +438,7 @@ void OnFRCommand(HWND hDlg, int id, HWND hwndCtl, UINT codeNotify)
 
 			SetFocus( hEdit );
 
-			SendMessage( hEdit, EM_REPLACESEL, 0, ( LPARAM ) toReplace );			
+			SendMessage( hEdit, EM_REPLACESEL, 0, reinterpret_cast<LPARAM >(toReplace) );			
 
 
 
@@ -458,7 +458,7 @@ void OnFRCommand(HWND hDlg, int id, HWND hwndCtl, UINT codeNotify)
 
 			{				
 
-				OnFRCommand( hDlg, IDB_REPLACE, 0, 0 );
+				OnFRCommand( hDlg, IDB_REPLACE, nullptr, 0 );
 
 			}
 

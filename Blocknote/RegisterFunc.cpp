@@ -1,4 +1,5 @@
 #include "Prototypes.h"
+#include "string_utils.h"
 
 static LPCSTR szRadioName[] =
 {
@@ -60,12 +61,6 @@ BOOL OnRegInitDialog(HWND hDlg, HWND hwndFocus, LPARAM lParam)
 
 	return TRUE;
 }
-
-char *LikeInSentences( const char *str );
-char *DownCase( const char *str );
-char *UpperCase ( const char *str );
-char *BeginWithUpperCase( const char *str );
-char *ReverseRegister( const char *str );
 
 void OnRegCommand(HWND hDlg, int id, HWND hwndCtl, UINT codeNotify)
 {

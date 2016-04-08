@@ -2,9 +2,9 @@
 
 void WriteVectorToList( const vector< string > vect, HWND list )
 {
-	for( int i = 0; i < vect.size( ); i ++ )
+	for(auto i = 0; i < vect.size( ); i ++ )
 	{
-		SendMessage( list, LB_ADDSTRING, 0, ( LPARAM ) vect[ i ].c_str( ) );
+		SendMessage( list, LB_ADDSTRING, 0, reinterpret_cast<LPARAM >(vect[i].c_str( )) );
 	}
 }
 HWND hwndHistory = 0;

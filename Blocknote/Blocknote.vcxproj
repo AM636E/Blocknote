@@ -86,6 +86,7 @@
   <ItemGroup>
     <ClInclude Include="File.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="string_utils.h" />
     <ClInclude Include="Prototypes.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
